@@ -1,0 +1,8 @@
+dejager/dries/api/Minion.class
+dejager/dries/api/Saying.class
+dejager/dries/resources/HelloWorldResource.class
+dejager/dries/application/MinionController.class
+dejager/dries/health/TemplateHealthCheck.class
+dejager/dries/HelloWorldApplication.class
+dejager/dries/HelloWorldConfiguration.class
+dejager/dries/resources/RegisterMinionResource.class

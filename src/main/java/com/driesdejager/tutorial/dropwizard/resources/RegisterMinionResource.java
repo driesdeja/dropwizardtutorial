@@ -5,6 +5,7 @@ import com.driesdejager.tutorial.dropwizard.application.MinionController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,12 +40,12 @@ public class RegisterMinionResource {
     }
 
     @POST
-    public Response registerMinion(Minion minion){
+    public Response registerMinion(@Valid  Minion minion){
         logger.debug("registerMinion");
         //What steps should happen when we register a new minion?
         //Step 1: Check to see if the Minion is already registered...
         MinionController controller = new MinionController();
-        if (controller.isMinionRegistered(minion)){
+        if (!controller.isMinionRegistered(minion)){
             //Step 2: ...
             controller.registerMinion(minion);
             //how to we add JSON to the response?

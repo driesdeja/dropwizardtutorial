@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 /**
  * Created by driesd on 11/03/16.
@@ -26,7 +27,7 @@ public class RegisterMinionResource {
     }
 
     @GET
-    public String checkIfRegistered(@PathParam("id")String minionId){
+    public String checkIfRegistered(@PathParam("id")String minionId) throws IOException{
         logger.debug("checkIfRegistered");
         //Validate if the id has previously been registered
         MinionController controller = new MinionController();
@@ -40,13 +41,14 @@ public class RegisterMinionResource {
     }
 
     @POST
-    public Response registerMinion(@Valid  Minion minion){
+    public Response registerMinion(@Valid  Minion minion) throws IOException{
         logger.debug("registerMinion");
         //What steps should happen when we register a new minion?
         //Step 1: Check to see if the Minion is already registered...
         MinionController controller = new MinionController();
         if (!controller.isMinionRegistered(minion)){
             //Step 2: ...
+
             controller.registerMinion(minion);
             //how to we add JSON to the response?
             return Response.ok(minion, MediaType.APPLICATION_JSON_TYPE).build();

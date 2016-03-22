@@ -27,15 +27,15 @@ public class RegisterMinionResource {
     }
 
     @GET
-    public String checkIfRegistered(@PathParam("id")String minionId) throws IOException{
+    public Response.ResponseBuilder checkIfRegistered(@PathParam("id")String minionId) throws IOException{
         logger.debug("checkIfRegistered");
         //Validate if the id has previously been registered
         MinionController controller = new MinionController();
 
         if (controller.isMinionRegistered(minionId)){
-            return "200";
+            return Response.ok();
         } else {
-            return "404";
+            return Response.serverError();
         }
 
     }

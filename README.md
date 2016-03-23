@@ -1,5 +1,5 @@
 # dropwizardtutorial
-Tutorial to show the basics of dropwizard
+Tutorial to show the basics of 
 
 ## George
 

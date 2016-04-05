@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Heartbeat {
     private String id;
-    private long time;
+    private String time;
 
     @JsonProperty
-    public long getTime() {
+    public String getTime() {
         return time;
     }
     @JsonProperty
-    public void setTime(long time) {
+    public void setTime(String time) {
         this.time = time;
     }
     @JsonProperty

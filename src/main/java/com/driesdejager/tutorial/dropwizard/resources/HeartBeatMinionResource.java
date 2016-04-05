@@ -20,7 +20,7 @@ import java.io.IOException;
 @Consumes(MediaType.APPLICATION_JSON)
 public class HeartBeatMinionResource {
 
-    MinionController mController;
+    public MinionController mController;
     public HeartBeatMinionResource() throws IOException{
         mController = new MinionController();
     }

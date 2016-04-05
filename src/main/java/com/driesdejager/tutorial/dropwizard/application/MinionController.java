@@ -4,6 +4,7 @@ import com.driesdejager.tutorial.dropwizard.api.Heartbeat;
 import com.driesdejager.tutorial.dropwizard.api.Minion;
 
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Created by driesd on 11/03/16.
@@ -14,6 +15,14 @@ public class MinionController {
 
     public MinionController() throws IOException{
         md = new MinionData();
+    }
+
+    public Heartbeat getMinionHeartbeat(String id) {
+        return md.getMinionHeartbeat(id);
+    }
+
+    public ArrayList<Minion> getAllMinions(){
+        return md.getAllMinions();
     }
 
     public boolean isMinionRegistered(Minion minion){

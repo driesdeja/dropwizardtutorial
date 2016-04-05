@@ -57,10 +57,12 @@ public class  MinionData {
 
     public MinionData() throws IOException{
         getAllHeartbeats();
-        getAllMinions();
+        logAllMinions();
     }
 
-    private void getAllMinions() throws IOException{
+    private void logAllMinions() throws IOException{
+        minions = new ArrayList<Minion>();
+
         File f = new File("minions.txt");
 
         BufferedReader br = new BufferedReader(new FileReader(f));
@@ -89,6 +91,8 @@ public class  MinionData {
     }
 
     private void getAllHeartbeats() throws IOException{
+        heartbeats = new ArrayList<Heartbeat>();
+
         File f = new File("heartbeats.txt");
 
         BufferedReader br = new BufferedReader(new FileReader(f));
@@ -104,16 +108,26 @@ public class  MinionData {
         String tempFile = fileContents.substring(1);
         boolean running = false;
         while(running){
-            Minion tempMinion = new Minion();
-            tempMinion.setId(tempFile.substring(0, tempFile.indexOf("`")-1));
-            tempMinion.setLocation(tempFile.substring(tempFile.indexOf("`")+1, tempFile.indexOf("@")));
-            tempMinion.setName(tempFile.substring(tempFile.indexOf("@")+1, tempFile.indexOf("|")-1));
+            Heartbeat tempHeartbeat = new Heartbeat();
+            tempHeartbeat.setId(tempFile.substring(0, tempFile.indexOf("`")-1));
+            tempHeartbeat.setTime(tempFile.substring(tempFile.indexOf("`")+1, tempFile.indexOf("|")-1));
 
             tempFile = tempFile.substring(tempFile.indexOf("|"));
             if(tempFile.length() < 2) running = false;
 
-            minions.add(tempMinion);
+            heartbeats.add(tempHeartbeat);
         }
+    }
+
+    public Heartbeat getMinionHeartbeat(String id){
+        for(Heartbeat hb: heartbeats){
+            if(hb.getId().equals(id)) return hb;
+        }
+        return null;
+    }
+
+    public ArrayList<Minion> getAllMinions(){
+        return minions;
     }
 }
 

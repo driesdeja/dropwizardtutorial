@@ -1,9 +1,0 @@
-logging:
-    level: INFO
-
-    loggers:
-        com.driesdejager.tutorial.dropwizard: DEBUG
-
-template: Hello, %s!
-defaultName: Stranger
-

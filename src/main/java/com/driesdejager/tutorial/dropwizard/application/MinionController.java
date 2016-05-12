@@ -21,6 +21,10 @@ public class MinionController {
         return md.getMinionHeartbeat(id);
     }
 
+    public Heartbeat getMostRecentHeartbeat(String id){
+        return md.getMostRecentHeartbeat(id);
+    }
+
     public ArrayList<Minion> getAllMinions(){
         return md.getAllMinions();
     }
@@ -46,9 +50,12 @@ public class MinionController {
 
     public boolean saveHB(Heartbeat hb) throws IOException{
 
+
         if(isMinionRegistered(hb.getId())){
-           return md.saveHB(hb);
+            System.out.println("minion registered");
+            return md.saveHB(hb);
         }
+        else System.out.println("minion not registered");
 
         return false;
     }

@@ -28,6 +28,7 @@ public class  MinionData {
 
     public boolean isMinionRegistered(String id){
         for(Minion min: minions){
+            System.out.println(min.getLocation() + " " + min.getName());
             if(min.getId().equals(id)) return true;
         }
         return false;
@@ -36,8 +37,11 @@ public class  MinionData {
 
     public boolean saveHB(Heartbeat hb) throws IOException{
         // TODO: save heartbeat
-        FileWriter fw = new FileWriter("minions.txt");
-        fw.write("~" + hb.getId() + "`" + hb.getTime());
+        FileWriter fw = new FileWriter("heartbeats.txt", true);
+//        BufferedWriter bw = new BufferedWriter(fw);
+//        PrintWriter out = new PrintWriter(bw);
+//        out.println("~" + hb.getId() + "`" + hb.getTime());
+        fw.append("~" + hb.getId() + "`" + hb.getTime() + "\n");
         fw.flush();
         fw.close();
         return true;
@@ -45,9 +49,10 @@ public class  MinionData {
 
     public boolean registerMinion(Minion minion) throws IOException{
         // TODO: save minion
+        System.out.println(minions.size());
 
-        FileWriter fw = new FileWriter("minions.txt");
-        fw.write("~" + minion.getId() + "`" + minion.getLocation() + "@" + minion.getName());
+        FileWriter fw = new FileWriter("minions.txt", true);
+        fw.append("~" + minion.getId() + "`" + minion.getLocation() + "@" + minion.getName() + "|" + "\n");
         fw.flush();
         fw.close();
 
@@ -73,18 +78,24 @@ public class  MinionData {
             line = br.readLine();
         }
 
+//        System.out.println(fileContents);
+
         br.close();
 
         String tempFile = fileContents.substring(1);
-        boolean running = false;
+        boolean running = true;
         while(running){
             Minion tempMinion = new Minion();
-            tempMinion.setId(tempFile.substring(0, tempFile.indexOf("`")-1));
+            tempMinion.setId(tempFile.substring(0, tempFile.indexOf("`")));
             tempMinion.setLocation(tempFile.substring(tempFile.indexOf("`")+1, tempFile.indexOf("@")));
-            tempMinion.setName(tempFile.substring(tempFile.indexOf("@")+1, tempFile.indexOf("|")-1));
+            tempMinion.setName(tempFile.substring(tempFile.indexOf("@")+1, tempFile.indexOf("|")));
+//            System.out.println(tempFile.substring(0, tempFile.indexOf("`")));
 
-            tempFile = tempFile.substring(tempFile.indexOf("|"));
-            if(tempFile.length() < 2) running = false;
+            if(tempFile.substring(tempFile.indexOf("|")).length() > 4){
+                if(tempFile.substring(tempFile.indexOf("|")+2).length() > 5) tempFile = tempFile.substring(tempFile.indexOf("|")+2);
+                else running = false;
+            }
+            else running = false;
 
             minions.add(tempMinion);
         }
@@ -122,6 +133,13 @@ public class  MinionData {
     public Heartbeat getMinionHeartbeat(String id){
         for(Heartbeat hb: heartbeats){
             if(hb.getId().equals(id)) return hb;
+        }
+        return null;
+    }
+
+    public Heartbeat getMostRecentHeartbeat(String id){
+        for (int i = heartbeats.size()-1; i >= 0; i--){
+            if(heartbeats.get(i).getId().equals(id)) return heartbeats.get(i);
         }
         return null;
     }

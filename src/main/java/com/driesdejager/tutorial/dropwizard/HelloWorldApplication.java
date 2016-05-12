@@ -1,11 +1,14 @@
 package com.driesdejager.tutorial.dropwizard;
 
 import com.driesdejager.tutorial.dropwizard.health.TemplateHealthCheck;
+import com.driesdejager.tutorial.dropwizard.resources.HeartBeatMinionResource;
 import com.driesdejager.tutorial.dropwizard.resources.HelloWorldResource;
 import com.driesdejager.tutorial.dropwizard.resources.RegisterMinionResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+
+import java.io.IOException;
 
 /**
  * Created by driesd on 10/03/16.
@@ -25,7 +28,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     }
 
     @Override
-    public void run (HelloWorldConfiguration configuration, Environment environment) {
+    public void run (HelloWorldConfiguration configuration, Environment environment) throws IOException {
         final HelloWorldResource resource = new HelloWorldResource(
                 configuration.getTemplate(),
                 configuration.getDefaultName()
@@ -35,6 +38,9 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
         final TemplateHealthCheck healthCheck = new TemplateHealthCheck(configuration.getTemplate());
         environment.healthChecks().register("template", healthCheck);
         environment.jersey().register(resource);
+
+        final HeartBeatMinionResource heartBeatMinionResource = new HeartBeatMinionResource();
+        environment.jersey().register(heartBeatMinionResource);
 
 
     }

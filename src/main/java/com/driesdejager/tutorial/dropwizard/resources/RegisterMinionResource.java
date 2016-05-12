@@ -37,7 +37,6 @@ public class RegisterMinionResource {
         } else {
             return Response.serverError();
         }
-
     }
 
     @POST
@@ -48,7 +47,6 @@ public class RegisterMinionResource {
         MinionController controller = new MinionController();
         if (!controller.isMinionRegistered(minion)){
             //Step 2: ...
-
             controller.registerMinion(minion);
             //how to we add JSON to the response?
             return Response.ok(minion, MediaType.APPLICATION_JSON_TYPE).build();

@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 
 @Path("/heartbeat")
-
+@Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class HeartBeatMinionResource {
 
@@ -25,9 +25,17 @@ public class HeartBeatMinionResource {
         mController = new MinionController();
     }
 
+    @GET
+    public Response getHeartbeat(@PathParam("id")String id){
+        if(!mController.getMinionHeartbeat(id).getId().isEmpty()) return Response.ok().build();
+        else return Response.serverError().build();
+    }
+
     @POST
-    public Response.ResponseBuilder updateHeartbeat(@Valid Heartbeat hb) throws IOException{
-        if(mController.saveHB(hb)) return Response.ok();
-        else return Response.serverError();
+    public Response updateHeartbeat(@Valid Heartbeat hb) throws IOException{
+        if(mController.saveHB(hb)) {
+            return Response.ok(hb, MediaType.APPLICATION_JSON_TYPE).build();
+        }
+        else return Response.ok("{ \"error\": \"minion isn't registered\" } ", MediaType.APPLICATION_JSON_TYPE).build();
     }
 }
